@@ -23,7 +23,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         requests -> requests
                                 .requestMatchers("/", "/h2-console", "/h2-console/*", "/h2-console/**").permitAll()
-                                .requestMatchers("/member/**").permitAll()
+                                .requestMatchers("/member","/member/*","/member/**").permitAll()
+                                .requestMatchers("/member/v1/signup").permitAll()
                 )
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)

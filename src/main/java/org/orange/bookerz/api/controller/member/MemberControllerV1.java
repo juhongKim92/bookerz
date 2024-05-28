@@ -17,7 +17,7 @@ public class MemberControllerV1 {
     private final MemberService memberService;
 
     @PostMapping("/signup")
-    public void signUp(@RequestBody SignupRequest request) {
+    public String signUp(@RequestBody SignupRequest request) {
 
         String email = request.getEmail();
         String password = request.getPassword();
@@ -25,5 +25,6 @@ public class MemberControllerV1 {
         String nickName = request.getNickName();
 
         memberService.signUp(email,password,passwordAgain,nickName);
+        return "signup success";
     }
 }
