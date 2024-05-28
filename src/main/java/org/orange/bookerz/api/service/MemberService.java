@@ -20,11 +20,16 @@ public class MemberService {
         }
 
         if (!checkPassword(password, passwordAgain)) {
-            throw new InvalidRequestException("password","password wrong");
+            throw new InvalidRequestException("password","Passwords do not match. Please re-enter your password.");
         }
 
+        Member member = Member.builder()
+                .email(email)
+                .password(passwordEncoder.encode(password))
+                .nickName(nickName)
+                .build();
 
-
+        memberRepository.save(member);
     }
 
 

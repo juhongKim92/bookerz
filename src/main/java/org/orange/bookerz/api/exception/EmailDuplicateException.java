@@ -2,7 +2,7 @@ package org.orange.bookerz.api.exception;
 
 public class EmailDuplicateException extends BaseException {
 
-    private static final String MESSAGE = "email is already exist.";
+    private static final String MESSAGE = "Email is already exist.";
 
     public EmailDuplicateException() {
         super(MESSAGE);
