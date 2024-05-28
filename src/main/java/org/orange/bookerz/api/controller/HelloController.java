@@ -1,4 +1,4 @@
-package org.orange.bookerz.controller;
+package org.orange.bookerz.api.controller;
 
 import lombok.Getter;
 import org.springframework.web.bind.annotation.GetMapping;
