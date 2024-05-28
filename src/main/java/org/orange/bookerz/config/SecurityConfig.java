@@ -17,12 +17,13 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf(customizer -> customizer.ignoringRequestMatchers("/h2-console","/h2-console/*","/h2-console/**"))
+                .csrf(customizer -> customizer.ignoringRequestMatchers("/h2-console", "/h2-console/*", "/h2-console/**"))
                 .cors(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
-                        requests ->
-                        requests.requestMatchers("/","/h2-console","/h2-console/*","/h2-console/**").permitAll()
+                        requests -> requests
+                                .requestMatchers("/", "/h2-console", "/h2-console/*", "/h2-console/**").permitAll()
+                                .requestMatchers("/member/**").permitAll()
                 )
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
