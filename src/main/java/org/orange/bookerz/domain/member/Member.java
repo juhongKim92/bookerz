@@ -18,11 +18,12 @@ public class Member {
     String password;
     @Column(unique = true)
     String nickName;
-
+    String role;
     @Builder
-    public Member(String email, String password, String nickName) {
+    public Member(String email, String password, String nickName, String role) {
         this.email = email;
         this.password = password;
         this.nickName = nickName;
+        this.role = role;
     }
 }

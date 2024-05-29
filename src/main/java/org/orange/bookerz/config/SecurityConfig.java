@@ -17,14 +17,15 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf(customizer -> customizer.ignoringRequestMatchers("/h2-console", "/h2-console/*", "/h2-console/**"))
+//                .csrf(customizer -> customizer.ignoringRequestMatchers("/h2-console", "/h2-console/*", "/h2-console/**"))
+                .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         requests -> requests
                                 .requestMatchers("/", "/h2-console", "/h2-console/*", "/h2-console/**").permitAll()
-                                .requestMatchers("/member","/member/*","/member/**").permitAll()
-                                .requestMatchers("/member/v1/signup").permitAll()
+                                .requestMatchers("/auth/**").permitAll()
+                                .requestMatchers("/member/hello/**").hasRole("USER")
                 )
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)

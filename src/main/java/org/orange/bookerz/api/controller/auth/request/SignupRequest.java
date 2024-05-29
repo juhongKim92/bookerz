@@ -1,5 +1,6 @@
-package org.orange.bookerz.api.controller.member.request;
+package org.orange.bookerz.api.controller.auth.request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,9 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SignupRequest {
 
+    @NotBlank(message = "email must not be blank")
     String email;
+    @NotBlank(message = "password must not be blank")
     String password;
+    @NotBlank(message = "password must not be blank")
     String passwordAgain;
+    @NotBlank(message = "nickName must not be blank")
     String nickName;
 
     @Builder
