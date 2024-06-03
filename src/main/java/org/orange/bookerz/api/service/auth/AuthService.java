@@ -1,8 +1,7 @@
 package org.orange.bookerz.api.service.auth;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.orange.bookerz.api.exception.EmailDuplicateException;
+import org.orange.bookerz.api.exception.AlreadyExistException;
 import org.orange.bookerz.api.exception.InvalidRequestException;
 import org.orange.bookerz.api.service.auth.response.SignInResponse;
 import org.orange.bookerz.domain.member.Member;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -24,7 +22,7 @@ public class AuthService {
     public void signUp(String email, String password,String passwordAgain, String nickName) {
 
         if (findMemberByEmail(email).isPresent()) {
-            throw new EmailDuplicateException();
+            throw new AlreadyExistException("Email is already exist.");
         }
 
         if (!checkPassword(password, passwordAgain)) {
@@ -55,7 +53,7 @@ public class AuthService {
             throw new InvalidRequestException("password","wrong password. Please re-enter your password.");
 
         }
-        String token = JwtUtils.generateToken(email, "USER");
+        String token = JwtUtils.generateToken(email, "ROLE_USER");
         return new SignInResponse(token);
     }
 

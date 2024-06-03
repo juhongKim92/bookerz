@@ -1,4 +1,4 @@
-package org.orange.bookerz.api.service;
+package org.orange.bookerz.api.service.auth;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.orange.bookerz.api.exception.EmailDuplicateException;
+import org.orange.bookerz.api.exception.AlreadyExistException;
 import org.orange.bookerz.api.exception.InvalidRequestException;
 import org.orange.bookerz.api.service.auth.AuthService;
 import org.orange.bookerz.domain.member.Member;
@@ -47,7 +47,7 @@ class AuthServiceTest {
         when(memberRepository.findByEmail(email)).thenReturn(Optional.of(new Member()));
 
         // then
-        assertThrows(EmailDuplicateException.class, () -> {
+        assertThrows(AlreadyExistException.class, () -> {
             authService.signUp(email, "password", "password", "nickName");
         });
     }

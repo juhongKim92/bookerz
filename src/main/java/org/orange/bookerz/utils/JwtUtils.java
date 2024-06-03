@@ -10,10 +10,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class JwtUtils {
+    private JwtUtils() {}
     public static String generateToken(String username, String role) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("role", role);
+        claims.put("authorities", role);
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(username)
