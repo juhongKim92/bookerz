@@ -13,12 +13,13 @@ import java.util.Map;
 
 public class JwtUtils {
     private JwtUtils() {}
-    public static String generateToken(String username, String role) {
+    public static String generateToken(Long memberId,String username, String role) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("authorities", role);
+        claims.put("username", username);
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(username)
+                .setSubject(memberId.toString())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10시간
                 .signWith(getSigningKey())

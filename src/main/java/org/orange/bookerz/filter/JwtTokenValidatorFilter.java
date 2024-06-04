@@ -1,6 +1,7 @@
 package org.orange.bookerz.filter;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
@@ -25,17 +26,25 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
         String jwt = request.getHeader(SecurityConstants.JWT_HEADER.getValue());
         if (jwt != null) {
             SecretKey key = Keys.hmacShaKeyFor(SecurityConstants.JWT_KEY.getValue().getBytes(StandardCharsets.UTF_8));
-            Claims claims = Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(jwt)
-                    .getBody();
+            Claims claims;
+            try {
+                claims = Jwts.parserBuilder()
+                        .setSigningKey(key)
+                        .build()
+                        .parseClaimsJws(jwt)
+                        .getBody();
 
-            String username = String.valueOf(claims.getSubject());
-            String authorities = String.valueOf(claims.get("authorities"));
-            Authentication auth = new UsernamePasswordAuthenticationToken(username, null, AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
+                String username = String.valueOf(claims.getSubject());
+                String authorities = String.valueOf(claims.get("authorities"));
+                Authentication auth = new UsernamePasswordAuthenticationToken(username, null, AuthorityUtils.commaSeparatedStringToAuthorityList(authorities));
 
-            SecurityContextHolder.getContext().setAuthentication(auth);
+                SecurityContextHolder.getContext().setAuthentication(auth);
+            } catch (JwtException e) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\": \"Invalid JWT token\"}");
+                return; // 필터 체인의 처리를 종료합니다.
+            }
         }
 
         filterChain.doFilter(request,response);

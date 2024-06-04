@@ -1,5 +1,7 @@
 package org.orange.bookerz.api.controller;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import org.orange.bookerz.api.exception.BaseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +43,20 @@ public class ExceptionController {
                 .code(statusCode)
                 .message(e.getMessage())
                 .validation(e.getValidation())
+                .build();
+
+        return ResponseEntity.status(statusCode)
+                .body(body);
+    }
+
+    @ResponseBody
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<ErrorResponse> jwtException(JwtException e) {
+        int statusCode = 403;
+
+        ErrorResponse body = ErrorResponse.builder()
+                .code(statusCode)
+                .message(e.getMessage())
                 .build();
 
         return ResponseEntity.status(statusCode)

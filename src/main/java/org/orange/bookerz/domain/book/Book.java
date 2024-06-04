@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.orange.bookerz.api.controller.book.request.AddBookRequest;
+import org.orange.bookerz.api.controller.book.request.UpdateBookRequest;
 import org.orange.bookerz.domain.BaseEntity;
 
 @Entity
@@ -43,4 +44,24 @@ public class Book extends BaseEntity {
                 .imagePath(request.getImagePath())
                 .build();
     }
+
+    public void updateBookInfo(UpdateBookRequest request) {
+        if (request.getIsbn() != null) {
+            this.isbn = request.getIsbn();
+        }
+        if (request.getTitle() != null) {
+            this.title = request.getTitle();
+        }
+        if (request.getAuthor() != null) {
+            this.author = request.getAuthor();
+        }
+        if (request.getPublisher() != null) {
+            this.publisher = request.getPublisher();
+        }
+        if (request.getImagePath() != null) {
+            this.imagePath = request.getImagePath();
+        }
+    }
+
+
 }

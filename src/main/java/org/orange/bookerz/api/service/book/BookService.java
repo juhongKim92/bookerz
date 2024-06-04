@@ -2,6 +2,7 @@ package org.orange.bookerz.api.service.book;
 
 import lombok.RequiredArgsConstructor;
 import org.orange.bookerz.api.controller.book.request.AddBookRequest;
+import org.orange.bookerz.api.controller.book.request.UpdateBookRequest;
 import org.orange.bookerz.api.exception.AlreadyExistException;
 import org.orange.bookerz.api.exception.InvalidRequestException;
 import org.orange.bookerz.api.service.book.response.BookResponse;
@@ -45,15 +46,18 @@ public class BookService {
         return BookResponse.of(book);
     }
 
-    public void updateBook() {
-
+    public String updateBook(Long bookId,UpdateBookRequest request) {
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new InvalidRequestException("id", "check book id"));
+        book.updateBookInfo(request);
+        bookRepository.save(book);
+        return book.getTitle();
     }
 
-    public void deleteBook() {
-
+    public void deleteBook(Long bookId) {
+        bookRepository.deleteById(bookId);
     }
 
-    public Optional<Book> findBookByIsbn(String isbn) {
+    private Optional<Book> findBookByIsbn(String isbn) {
         return bookRepository.findByIsbn(isbn);
     }
 

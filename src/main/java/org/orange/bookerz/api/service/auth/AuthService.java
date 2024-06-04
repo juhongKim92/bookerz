@@ -53,7 +53,8 @@ public class AuthService {
             throw new InvalidRequestException("password","wrong password. Please re-enter your password.");
 
         }
-        String token = JwtUtils.generateToken(email, "ROLE_USER");
+        Long memberId = member.getId();
+        String token = JwtUtils.generateToken(memberId,email, "ROLE_USER");
         return new SignInResponse(token);
     }
 
