@@ -13,10 +13,11 @@ import java.util.Map;
 
 public class JwtUtils {
     private JwtUtils() {}
-    public static String generateToken(Long memberId,String username, String role) {
+    public static String generateToken(Long memberId,String username, String nickName, String role) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("authorities", role);
         claims.put("username", username);
+        claims.put("nickName", nickName);
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(memberId.toString())

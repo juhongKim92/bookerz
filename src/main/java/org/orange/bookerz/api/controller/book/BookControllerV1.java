@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 
 @Slf4j
 @RequestMapping("/api/v1")
@@ -22,7 +21,6 @@ import java.util.Optional;
 public class BookControllerV1 {
 
     private final BookService bookService;
-    private final ObjectMapper objectMapper;
 
     @PostMapping("/book")
     public ResponseEntity<String> addBook(@RequestBody @Valid AddBookRequest request) {

@@ -54,7 +54,8 @@ public class AuthService {
 
         }
         Long memberId = member.getId();
-        String token = JwtUtils.generateToken(memberId,email, "ROLE_USER");
+        String nickName = member.getNickName();
+        String token = JwtUtils.generateToken(memberId,email,nickName, "ROLE_USER");
         return new SignInResponse(token);
     }
 

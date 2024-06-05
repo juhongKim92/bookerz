@@ -23,11 +23,19 @@ public class Review extends BaseEntity {
     int score;
     @Column(length = 1000)
     String comment;
+    @ManyToOne
+    @JoinColumn(name = "parent_review_id")
+    Review parentReview;
+
     @Builder
-    public Review(Book book, Member member, int score, String comment) {
+    public Review(Book book, Member member, int score, String comment,Review parentReview) {
         this.book = book;
         this.member = member;
         this.score = score;
         this.comment = comment;
+        this.parentReview = parentReview;
+    }
+    public boolean isParent() {
+        return this.parentReview == null;
     }
 }
